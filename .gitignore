@@ -10,7 +10,7 @@ data/
 data/
 __pycache__/
 *.mp4
-
+research/
 # Ignore the analysis log
 analysis_log.csv
 

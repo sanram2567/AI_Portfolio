@@ -2,32 +2,13 @@ import yt_dlp
 import pandas as pd
 import os
 
-def download_video(url, category="reels"):
-    # Ensure folders exist
-    save_path = f"data/{category}/"
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
-
-    # Settings for the downloader
+def download_reel(url, output_folder="data/reels"):
+    os.makedirs(output_folder, exist_ok=True)
     ydl_opts = {
         'format': 'best',
-        'outtmpl': f'{save_path}%(title)s.%(ext)s',
+        'outtmpl': f'{output_folder}/%(title)s.%(ext)s',
     }
-
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        # Extract info without downloading first to log it
         info = ydl.extract_info(url, download=True)
-        
-        # Create a simple log entry (Roadmap: Data Manipulation)
-        video_data = {
-            "title": info.get('title'),
-            "duration": info.get('duration'),
-            "category": category,
-            "filename": f"{info.get('title')}.{info.get('ext')}"
-        }
-        return video_data
-
-# --- TEST IT ---
-link = "https://youtube.com/shorts/FOEo3waXr6s?si=tyrNK2sKHJPPjHa8"
-data = download_video(link)
-print(f"Successfully downloaded: {data['title']}")
+        filename = ydl.prepare_filename(info)
+    return filename

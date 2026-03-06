@@ -1,22 +1,33 @@
 import whisper
-import os
+import streamlit as st
+from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api._errors import TranscriptsDisabled, NoTranscriptFound
 
-# Load the model
-# 'base' is good for testing; 'small' or 'medium' for production accuracy
-model = whisper.load_model("base")
-
-def transcribe_audio(video_path):
-    print(f"Transcribing: {video_path}...")
-    # This automatically extracts audio and transcribes it
-    result = model.transcribe(video_path)
-    return result["text"]
-
-if __name__ == "__main__":
-    # Point this to one of your downloaded videos
-    video_file = "data/reels/BANANA (Animation Meme).mp4" 
-    if os.path.exists(video_file):
-        transcript = transcribe_audio(video_file)
-        print("\n--- TRANSCRIPT ---")
-        print(transcript)
-    else:
-        print("Please provide a valid path to an MP4 file in your data folder.")
+# We use cache_data here since the output is a string (text)
+@st.cache_data
+def get_audio_transcript(video_id, video_path):
+    """
+    Fetches official subtitles if available, otherwise falls back to Whisper.
+    video_id: The ID from the YouTube URL (e.g., 'dQw4w9WgXcQ')
+    video_path: The local path to the downloaded MP4 file
+    """
+    # 1. ATTEMPT: Fetch official subtitles
+    try:
+        print("Attempting to fetch official subtitles...")
+        yt = YouTubeTranscriptApi()
+        transcript_list = yt.list(video_id)
+        # Attempt to find English, will auto-select manually created then generated
+        transcript = transcript_list.find_transcript(['en'])
+        data = transcript.fetch()
+        
+        # Combine into a single text block
+        return " ".join([entry.text for entry in data])
+        
+    except (TranscriptsDisabled, NoTranscriptFound):
+        print("No official subtitles found, falling back to Whisper...")
+        
+        # 2. FALLBACK: Use Whisper (heavy processing)
+        # Ensure 'base' model is loaded efficiently or cached
+        model = whisper.load_model("base")
+        result = model.transcribe(video_path)
+        return result["text"]
