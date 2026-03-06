@@ -4,23 +4,23 @@ A computer vision pipeline designed to analyze video content using Deep Learning
 
 
 
-\## Key Features
+\# Key Features
 
-\- \*\*Data Ingestion:\*\* Automated video downloading with `yt-dlp`.
+\- **Data Ingestion:** Automated video downloading with `yt-dlp`.
 
-\- \*\*Vision Engine:\*\* Frame extraction and processing with OpenCV.
+\- **Vision Engine:** Frame extraction and processing with OpenCV.
 
-\- \*\*AI Intelligence:\*\* Multimodal image captioning using Salesforce BLIP.
+\- **AI Intelligence:** Multimodal image captioning using Salesforce BLIP.
 
 
 
-\## Tech Stack
+\# Tech Stack
 
 \- Python, PyTorch, Transformers (Hugging Face), OpenCV.
 
 
 
-\## How to run
+\# How to run
 
 1\. Clone the repo.
 
