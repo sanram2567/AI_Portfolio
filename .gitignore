@@ -1,5 +1,5 @@
 # Virtual Environment
-ai_portfolio/
+reelmindai/
 
 # Python cache
 *.pyc
@@ -7,7 +7,6 @@ ai_portfolio/
 # Data (we don't want to upload heavy video files)
 data/
 
-ai_portfolio/
 data/
 __pycache__/
 *.mp4
