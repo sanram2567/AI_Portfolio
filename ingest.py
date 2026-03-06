@@ -28,6 +28,6 @@ def download_video(url, category="reels"):
         return video_data
 
 # --- TEST IT ---
-link = "https://youtube.com/shorts/Ce1DVzpUTFg?si=BkvgIjlJ8tZkxflg"
+link = "https://youtube.com/shorts/FOEo3waXr6s?si=tyrNK2sKHJPPjHa8"
 data = download_video(link)
 print(f"Successfully downloaded: {data['title']}")
