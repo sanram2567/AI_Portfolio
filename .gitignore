@@ -2,7 +2,6 @@
 ai_portfolio/
 
 # Python cache
-__pycache__/
 *.pyc
 
 # Data (we don't want to upload heavy video files)
@@ -12,3 +11,9 @@ ai_portfolio/
 data/
 __pycache__/
 *.mp4
+
+# Ignore the analysis log
+analysis_log.csv
+
+.venv/
+.ipynb_checkpoints/
