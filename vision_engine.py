@@ -1,5 +1,20 @@
 import cv2
 import os
+from PIL import Image
+from transformers import BlipProcessor, BlipForConditionalGeneration
+
+# Load model/processor globally so you don't reload it every time
+processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+
+def generate_caption(image_path):
+    image = Image.open(image_path).convert('RGB')
+    inputs = processor(images=image, return_tensors="pt")
+    
+    # Generate caption
+    output_ids = model.generate(**inputs, max_new_tokens=20)
+    return processor.decode(output_ids[0], skip_special_tokens=True)
+
 
 def extract_frames(video_path, frames_per_second=2):
     # Create a folder for frames
